@@ -85,6 +85,12 @@ func (s *Server) handler() {
 	for {
 		request := <-s.requestChan
 		response := s.handle(request)
+
+		data := response.GetData()
+		if len(data) == 0 {
+			continue
+		}
+
 		request.conn.Write(response.Bytes())
 	}
 }
