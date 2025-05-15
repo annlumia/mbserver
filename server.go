@@ -104,3 +104,17 @@ func (s *Server) Close() {
 		port.Close()
 	}
 }
+
+type Connection interface {
+	Init(chan<- *Request) error
+	Listener() net.Listener
+}
+
+func (s *Server) AddConnection(conn Connection) error {
+	err := conn.Init(s.requestChan)
+	if err != nil {
+		return err
+	}
+	s.listeners = append(s.listeners, conn.Listener())
+	return nil
+}
