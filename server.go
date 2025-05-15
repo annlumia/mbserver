@@ -28,6 +28,13 @@ type Request struct {
 	frame Framer
 }
 
+func NewRequest(conn io.ReadWriteCloser, frame Framer) *Request {
+	return &Request{
+		conn:  conn,
+		frame: frame,
+	}
+}
+
 // NewServer creates a new Modbus server (slave).
 func NewServer() *Server {
 	s := &Server{}
